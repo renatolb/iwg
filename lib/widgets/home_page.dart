@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:iwg/weight_calculator.dart';
 import 'package:iwg/widgets/weight_input.dart';
 
+import 'gain_meter.dart';
+
 class MyHomePage extends StatefulWidget {
   final String title;
 
@@ -43,18 +45,36 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var uf = calculator.getUF(this._dryWeight, this._currentWeight);
+    var serum = calculator.getSerum();
+    var resultadoUF = '${uf.toStringAsFixed(2)}L (${(uf-serum).toStringAsFixed(2)}L + ${serum.toStringAsFixed(1)}L)';
+
     return Scaffold(
       appBar: AppBar(
           title: Text(widget.title)
       ),
       body: Container(
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              WeightInput(label: 'Peso Seco', min: this._minWeight, max: this._maxWeight, selectedWeight: _dryWeight, onChangeCallback: this._setDryWeight),
-              WeightInput(label: 'Peso Atual', min: this._minWeight, max: this._maxWeight, selectedWeight: _currentWeight, onChangeCallback: this._setCurrWeight),
+              Column(
+                children: <Widget>[
+                  WeightInput(label: 'Peso Seco', min: this._minWeight, max: this._maxWeight, selectedWeight: _dryWeight, onChangeCallback: this._setDryWeight),
+                  WeightInput(label: 'Peso Atual', min: this._minWeight, max: this._maxWeight, selectedWeight: _currentWeight, onChangeCallback: this._setCurrWeight),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(resultadoUF, style: TextStyle(
+                      fontSize: 30
+                  )),
+                  GainMeter(current: calculator.getGainPercentage(_dryWeight, _currentWeight))
+                ],
+              ),
             ]
           )
         )

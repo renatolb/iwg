@@ -7,6 +7,10 @@ class WeightCalculator {
     return currentWeight - dryWeight;
   }
 
+  double getSerum() {
+    return this.usedSerum;
+  }
+
   double getUF(dryWeight, currentWeight) {
     var excess = this.getExcess(dryWeight, currentWeight);
     if (excess <= 0) return this.usedSerum;

@@ -36,7 +36,7 @@ class WeightInputState extends State<WeightInput> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: <Widget> [
-                FlatButton(child: Icon(Icons.remove, color: Colors.red,), onPressed: () => {},),
+                FlatButton(child: Icon(Icons.remove, color: Colors.red,), onPressed: () => {this._setWeight((this.widget.selectedWeight - 0.1).toStringAsFixed(2))},),
                 Container(
                     width: 60,
                     child:
@@ -49,7 +49,7 @@ class WeightInputState extends State<WeightInput> {
                       keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                   )
                 ),
-                FlatButton(child: Icon(Icons.add, color: Colors.red,), onPressed: () => {},),
+                FlatButton(child: Icon(Icons.add, color: Colors.red,), onPressed: () => {this._setWeight((this.widget.selectedWeight + 0.1).toStringAsFixed(2))},),
               ],
             ),
             Slider(
