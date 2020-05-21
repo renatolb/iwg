@@ -51,7 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(widget.title)
+          backgroundColor: Colors.white,
+          title: Text(widget.title, style: TextStyle(color: Colors.black),)
       ),
       body: Container(
         child: Padding(
@@ -65,15 +66,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   WeightInput(label: 'Peso Atual', min: this._minWeight, max: this._maxWeight, selectedWeight: _currentWeight, onChangeCallback: this._setCurrWeight),
                 ],
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text(resultadoUF, style: TextStyle(
-                      fontSize: 30
-                  )),
-                  GainMeter(current: calculator.getGainPercentage(_dryWeight, _currentWeight))
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text('UF', style: TextStyle(
+                        fontSize: 25
+                    )),
+                    Text(resultadoUF, style: TextStyle(
+                        fontSize: 25
+                    )),
+                    GainMeter(current: calculator.getGainPercentage(_dryWeight, _currentWeight))
+                  ],
+                ),
               ),
             ]
           )

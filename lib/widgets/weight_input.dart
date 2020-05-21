@@ -30,10 +30,11 @@ class WeightInputState extends State<WeightInput> {
 
     return Container(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(this.widget.label, style: inputLabelStyle),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: <Widget> [
                 FlatButton(child: Icon(Icons.remove, color: Colors.red,), onPressed: () => {this._setWeight((this.widget.selectedWeight - 0.1).toStringAsFixed(2))},),
@@ -50,15 +51,16 @@ class WeightInputState extends State<WeightInput> {
                   )
                 ),
                 FlatButton(child: Icon(Icons.add, color: Colors.red,), onPressed: () => {this._setWeight((this.widget.selectedWeight + 0.1).toStringAsFixed(2))},),
+                Text('Kg', style: TextStyle(color: Colors.black45),)
               ],
             ),
-            Slider(
-              value: this.widget.selectedWeight,
-              min: this.widget.min,
-              max: this.widget.max,
-              divisions: ((this.widget.max - this.widget.min) * 2).toInt(),
-              onChanged: this.widget.onChangeCallback,
-            ),
+//            Slider(
+//              value: this.widget.selectedWeight,
+//              min: this.widget.min,
+//              max: this.widget.max,
+//              divisions: ((this.widget.max - this.widget.min) * 2).toInt(),
+//              onChanged: this.widget.onChangeCallback,
+//            ),
           ],
         )
     );

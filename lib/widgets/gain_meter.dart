@@ -24,7 +24,7 @@ class GainMeterState extends State<GainMeter> {
 
             var limitMarkerPosition = toScale(this.widget.limit);
             var limitStop = toStopScale(this.widget.limit);
-            var greenStop = limitStop / 1.25;
+            var greenStop = limitStop / 1.6;
             var yellowStop = limitStop / 1.1;
             var redStop = limitStop;
 
