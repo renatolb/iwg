@@ -65,13 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Text('UF', style: TextStyle(
-                        fontSize: 25
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(107, 107, 107, 1)
                     )),
                     Text(resultadoUF, style: TextStyle(
                         fontSize: 25

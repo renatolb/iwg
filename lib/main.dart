@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Iwg',
       theme: ThemeData(
         fontFamily: 'Inter',
+        backgroundColor: Colors.white,
         primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

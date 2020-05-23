@@ -16,7 +16,6 @@ class WeightInput extends StatefulWidget {
 }
 
 class WeightInputState extends State<WeightInput> {
-  var inputLabelStyle = TextStyle(fontSize: 23, color: Colors.black87);
   int intValue;
   int decimalValue;
 
@@ -47,37 +46,62 @@ class WeightInputState extends State<WeightInput> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    ThemeData sliderTheme = ThemeData.from(
+        colorScheme: theme.colorScheme,
+        textTheme: theme.textTheme.apply(
+          fontSizeFactor: 1.1,
+          bodyColor: Color.fromRGBO(102, 102, 102, 1)
+        ),
+    );
+
+    var labelStyle = TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 23,
+        fontWeight: FontWeight.bold,
+        color: Color.fromRGBO(107, 107, 107, 1)
+    );
+
     return Container(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(this.widget.label, style: inputLabelStyle),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget> [
-                Container(child: new NumberPicker.integer(
-                    initialValue: intValue,
-                    minValue: 30,
-                    maxValue: 120,
-                    itemExtent: 30,
-                    step: 1,
-                    highlightSelectedValue: true,
-                    onChanged: (newValue) => setValue(newValue, false)
-                )),
-                Container(child: Text(',')),
-                Container(child: new NumberPicker.integer(
-                    initialValue: decimalValue,
-                    minValue: 0,
-                    maxValue: 95,
-                    itemExtent: 30,
-                    zeroPad: true,
-                    step: 5,
-                    highlightSelectedValue: true,
-                    onChanged: (newValue) => setValue(newValue, true)
-                )),
-                Text('Kg', style: TextStyle(color: Colors.black45),)
-              ],
+            Text(this.widget.label, style: labelStyle,),
+            Theme(
+              data: sliderTheme,
+              child:
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget> [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 10, 5, 10),
+                        child: new NumberPicker.integer(
+                        initialValue: intValue,
+                        minValue: 30,
+                        maxValue: 120,
+                        itemExtent: 30,
+                        listViewWidth: 47,
+                        step: 1,
+                        highlightSelectedValue: true,
+                        onChanged: (newValue) => setValue(newValue, false)
+                    )),
+                    Container(child: Text(',', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),)),
+                    Container(child: new NumberPicker.integer(
+                        initialValue: decimalValue,
+                        minValue: 0,
+                        maxValue: 95,
+                        itemExtent: 30,
+                        listViewWidth: 47,
+                        zeroPad: true,
+                        step: 5,
+                        highlightSelectedValue: true,
+                        onChanged: (newValue) => setValue(newValue, true)
+                    )),
+                    Text('Kg', style: TextStyle(color: Colors.black45),)
+                ],
+              )
             ),
           ],
         )

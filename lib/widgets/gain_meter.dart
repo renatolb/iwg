@@ -27,8 +27,14 @@ class GainMeterState extends State<GainMeter> {
             var limitMarkerPosition = toScale(this.widget.limit);
             var limitStop = toStopScale(this.widget.limit);
             var greenStop = limitStop / 1.6;
-            var yellowStop = limitStop / 1.1;
+            var yellowStop = limitStop / 1.05;
             var redStop = limitStop;
+
+            var green = Color.fromRGBO(95, 213, 160, 1);
+            var yellow = Color.fromRGBO(255, 198, 38, 1);
+            var red = Color.fromRGBO(255, 55, 38, 1);
+
+            var pointerColor = currentPos >= this.widget.limit ? Colors.red : Colors.black;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -40,14 +46,15 @@ class GainMeterState extends State<GainMeter> {
                     children: [Container(
                       height: 10,
                       decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
                           gradient: LinearGradient(
                               stops: [greenStop, yellowStop, redStop],
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
-                              colors: [Colors.green, Colors.yellow, Colors.red]
+                              colors: [green, yellow, red]
                           )
                       ),
-                    ), Positioned(
+                    ), /*Positioned(
                         left: limitMarkerPosition,
                         top: 2,
                         child: Column(
@@ -56,14 +63,20 @@ class GainMeterState extends State<GainMeter> {
                             Text(this.widget.limit.toInt().toString() + '%')
                           ],
                         ),
-                      ),
+                      ),*/
                       Positioned(
                         left: toScale(currentPos),
                         top: 2,
                         child: Column(
                           children: <Widget>[
-                            Icon(Icons.arrow_drop_up, color: Colors.black,),
-                            Text(currentPos.toStringAsFixed(1) + '%')
+                            Icon(
+                              Icons.arrow_drop_up,
+                              color: pointerColor,
+                            ),
+                            Text(
+                              currentPos.toStringAsFixed(1) + '%',
+                              style: TextStyle(color: pointerColor),
+                            )
                           ],
                         ),
                       )
