@@ -29,7 +29,7 @@ class WeightInputState extends State<WeightInput> {
   void setValue(int val, bool decimal) {
     if (decimal) this.decimalValue = val;
     else this.intValue = val;
-    emitInput("$intValue.$decimalValue");
+    emitInput("$intValue.${decimalValue < 10 ? '0' : ''}$decimalValue");
   }
 
   void emitInput(String valor) {
