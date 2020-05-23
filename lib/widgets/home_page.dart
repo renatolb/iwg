@@ -22,15 +22,13 @@ class _MyHomePageState extends State<MyHomePage> {
   WeightCalculator calculator;
 
   _MyHomePageState() : super() {
-    this._dryWeight = _minWeight;
+    this._dryWeight = _maxWeight/2;
     this._currentWeight = _maxWeight/2;
     this.calculator = WeightCalculator();
   }
 
   void _setDryWeight(double valor) {
     setState(() {
-      if(valor > _maxWeight) valor = _maxWeight;
-      if(valor < _minWeight) valor = _minWeight;
       this._dryWeight = valor;
     });
   }

@@ -15,9 +15,11 @@ class GainMeterState extends State<GainMeter> {
 
   @override
   Widget build(BuildContext context) {
-    double currentPos = this.widget.current <= 0 ? 0 : this.widget.current >= this.widget.max ? this.widget.max : this.widget.current;
-    return
-      new LayoutBuilder(
+    double currentPos = this.widget.current;
+    if (currentPos < 0) currentPos = 0;
+     else if (currentPos > this.widget.max) currentPos = this.widget.max;
+
+    return new LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             toScale(n) => scaleBetween(n, -15, constraints.maxWidth-35, this.widget.min, this.widget.max);
             toStopScale(n) => scaleBetween(n, 0, 1, this.widget.min, this.widget.max);

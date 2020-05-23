@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class WeightInput extends StatefulWidget {
   final String label;
   final double min;
   final double max;
-  final ValueChanged<double> onChangeCallback;
   final double selectedWeight;
+  final ValueChanged<double> onChangeCallback;
 
   WeightInput({Key key, this.label, this.selectedWeight, this.min, this.max, @required this.onChangeCallback}) : super(key: key);
 
@@ -17,17 +17,36 @@ class WeightInput extends StatefulWidget {
 
 class WeightInputState extends State<WeightInput> {
   var inputLabelStyle = TextStyle(fontSize: 23, color: Colors.black87);
+  int intValue;
+  int decimalValue;
 
-  void _setWeight(String valor) {
+  @override
+  void initState() {
+    intValue = this.widget.selectedWeight.toInt();
+    decimalValue = ((this.widget.selectedWeight - intValue)*10).toInt();
+    super.initState();
+  }
+
+  void setValue(int val, bool decimal) {
+    if (decimal) this.decimalValue = val;
+    else this.intValue = val;
+    emitInput("$intValue.$decimalValue");
+  }
+
+  void emitInput(String valor) {
       double val = double.tryParse(valor);
-      if (val == null) val = widget.selectedWeight;
-      this.widget.onChangeCallback(val);
+      if (val != null) {
+        this.widget.onChangeCallback(val);
+      }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final inputController = TextEditingController(text: widget.selectedWeight.toStringAsFixed(2));
-
     return Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,30 +56,29 @@ class WeightInputState extends State<WeightInput> {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: <Widget> [
-                FlatButton(child: Icon(Icons.remove, color: Colors.red,), onPressed: () => {this._setWeight((this.widget.selectedWeight - 0.1).toStringAsFixed(2))},),
-                Container(
-                    width: 60,
-                    child:
-                    TextField(
-                      textAlign: TextAlign.center,
-                      decoration: null,
-                      style: TextStyle(fontSize: 20),
-                      controller: inputController,
-                      onChanged: (text) => this._setWeight(text),
-                      keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
-                  )
-                ),
-                FlatButton(child: Icon(Icons.add, color: Colors.red,), onPressed: () => {this._setWeight((this.widget.selectedWeight + 0.1).toStringAsFixed(2))},),
+                Container(child: new NumberPicker.integer(
+                    initialValue: intValue,
+                    minValue: 30,
+                    maxValue: 120,
+                    itemExtent: 30,
+                    step: 1,
+                    highlightSelectedValue: true,
+                    onChanged: (newValue) => setValue(newValue, false)
+                )),
+                Container(child: Text(',')),
+                Container(child: new NumberPicker.integer(
+                    initialValue: decimalValue,
+                    minValue: 0,
+                    maxValue: 95,
+                    itemExtent: 30,
+                    zeroPad: true,
+                    step: 5,
+                    highlightSelectedValue: true,
+                    onChanged: (newValue) => setValue(newValue, true)
+                )),
                 Text('Kg', style: TextStyle(color: Colors.black45),)
               ],
             ),
-//            Slider(
-//              value: this.widget.selectedWeight,
-//              min: this.widget.min,
-//              max: this.widget.max,
-//              divisions: ((this.widget.max - this.widget.min) * 2).toInt(),
-//              onChanged: this.widget.onChangeCallback,
-//            ),
           ],
         )
     );
