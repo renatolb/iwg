@@ -68,6 +68,7 @@ class GainMeterState extends State<GainMeter> {
                         left: toScale(currentPos),
                         top: 2,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Icon(
                               Icons.arrow_drop_up,
@@ -79,7 +80,7 @@ class GainMeterState extends State<GainMeter> {
                             )
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

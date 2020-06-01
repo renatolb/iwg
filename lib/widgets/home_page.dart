@@ -46,10 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
     var uf = calculator.getUF(this._dryWeight, this._currentWeight);
     var serum = calculator.getSerum();
     var resultadoUF = '${uf.toStringAsFixed(2)}L (${(uf-serum).toStringAsFixed(2)}L + ${serum.toStringAsFixed(1)}L)';
+    int now = DateTime.now().weekday;
+    double gainPerDay = calculator.getGainPerDay(now > 3 ? 2 : 3, this._dryWeight, this._currentWeight);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
           backgroundColor: Colors.white,
+          elevation: 0.0,
           title: Text(widget.title, style: TextStyle(color: Colors.black),)
       ),
       body: Container(
@@ -78,7 +82,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     Text(resultadoUF, style: TextStyle(
                         fontSize: 25
                     )),
-                    GainMeter(current: calculator.getGainPercentage(_dryWeight, _currentWeight))
+                    GainMeter(current: calculator.getGainPercentage(_dryWeight, _currentWeight)),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(0, 30, 0, 10),
+                        child: Text('${gainPerDay.toStringAsFixed(1)}L/dia')
+                    )
                   ],
                 ),
               ),
