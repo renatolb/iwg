@@ -12,28 +12,26 @@ class GainMeter extends StatefulWidget {
 
 class GainMeterState extends State<GainMeter> {
   scaleBetween(unscaledNum, minAllowed, maxAllowed, min, max) => (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed;
+  toScale(n, constraints) => scaleBetween(n, -15, constraints.maxWidth-35, this.widget.min, this.widget.max);
+  toStopScale(n, constraints) => scaleBetween(n, 0, 1, this.widget.min, this.widget.max);
+
+  var green = Color.fromRGBO(95, 213, 160, 1);
+  var yellow = Color.fromRGBO(255, 198, 38, 1);
+  var red = Color.fromRGBO(255, 55, 38, 1);
 
   @override
   Widget build(BuildContext context) {
     double currentPos = this.widget.current;
     if (currentPos < 0) currentPos = 0;
-     else if (currentPos > this.widget.max) currentPos = this.widget.max;
+    else if (currentPos > this.widget.max) currentPos = this.widget.max;
 
     return new LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            toScale(n) => scaleBetween(n, -15, constraints.maxWidth-35, this.widget.min, this.widget.max);
-            toStopScale(n) => scaleBetween(n, 0, 1, this.widget.min, this.widget.max);
-
-            var limitMarkerPosition = toScale(this.widget.limit);
-            var limitStop = toStopScale(this.widget.limit);
+            var limitMarkerPosition = toScale(this.widget.limit, constraints);
+            var limitStop = toStopScale(this.widget.limit, constraints);
             var greenStop = limitStop / 1.6;
             var yellowStop = limitStop / 1.05;
             var redStop = limitStop;
-
-            var green = Color.fromRGBO(95, 213, 160, 1);
-            var yellow = Color.fromRGBO(255, 198, 38, 1);
-            var red = Color.fromRGBO(255, 55, 38, 1);
-
             var pointerColor = currentPos >= this.widget.limit ? Colors.red : Colors.black;
 
             return Column(
@@ -65,7 +63,7 @@ class GainMeterState extends State<GainMeter> {
                         ),
                       ),*/
                       Positioned(
-                        left: toScale(currentPos),
+                        left: toScale(currentPos, constraints),
                         top: 2,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
